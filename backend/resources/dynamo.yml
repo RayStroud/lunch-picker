@@ -1,0 +1,35 @@
+Resources:
+  LunchesTable:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      TableName: ${self:custom.prefix}-lunches-${self:custom.stage}
+      AttributeDefinitions:
+        - AttributeName: groupName
+          AttributeType: S
+        - AttributeName: lunchDate
+          AttributeType: S
+      KeySchema:
+        - AttributeName: groupName
+          KeyType: HASH
+        - AttributeName: lunchDate
+          KeyType: RANGE
+      ProvisionedThroughput:
+        ReadCapacityUnits: ${self:custom.tableThroughput}
+        WriteCapacityUnits: ${self:custom.tableThroughput}
+  LocationsTable:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      TableName: ${self:custom.prefix}-locations-${self:custom.stage}
+      AttributeDefinitions:
+        - AttributeName: lunchId
+          AttributeType: S
+        - AttributeName: locationName
+          AttributeType: S
+      KeySchema:
+        - AttributeName: lunchId
+          KeyType: HASH
+        - AttributeName: locationName
+          KeyType: RANGE
+      ProvisionedThroughput:
+        ReadCapacityUnits: ${self:custom.tableThroughput}
+        WriteCapacityUnits: ${self:custom.tableThroughput}
