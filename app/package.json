@@ -1,0 +1,29 @@
+{
+  "name": "app",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test --env=jsdom",
+    "eject": "react-scripts eject",
+    "//predeploy": "npm run build",
+    "//deploy": "aws s3 sync build/ s3://YOUR_S3_DEPLOY_BUCKET_NAME --delete",
+    "//postdeploy": "aws cloudfront create-invalidation --distribution-id YOUR_CF_DISTRIBUTION_ID --paths '/*' && aws cloudfront create-invalidation --distribution-id YOUR_WWW_CF_DISTRIBUTION_ID --paths '/*'",
+    "deploy": "yarn build && aws s3 sync build/ s3://lunch-picker-app"
+  },
+  "devDependencies": {
+    "aws-amplify": "^1.0.6",
+    "moment": "^2.22.2",
+    "react-bootstrap": "^0.31.0",
+    "react-router-dom": "^4.3.1"
+  },
+  "dependencies": {
+    "prop-types": "^15.6.2",
+    "react": "^16.4.2",
+    "react-datepicker": "^1.6.0",
+    "react-dom": "^16.4.2",
+    "react-router-bootstrap": "^0.24.4",
+    "react-scripts": "1.1.4"
+  }
+}

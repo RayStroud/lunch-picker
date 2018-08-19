@@ -1,0 +1,8 @@
+.NewLocation form {
+  padding-bottom: 15px;
+}
+
+.NewLocation form textarea {
+  height: 300px;
+  font-size: 24px;
+}

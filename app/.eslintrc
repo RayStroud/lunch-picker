@@ -1,0 +1,32 @@
+{
+  "parser": "babel-eslint",
+  "rules": {
+    "radix": ["error", "as-needed"],
+    "import/prefer-default-export": "warn",
+    "global-require": "warn",
+    "react/jsx-uses-react": "error",
+    "react/jsx-uses-vars": "error",
+    "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }],
+    "react/jsx-curly-spacing": ["error", "always"],
+    "react/no-unused-state": "warn",
+    "react/prop-types": "warn",
+    "react/prefer-stateless-function": "warn",
+    "react/forbid-prop-types": "warn",
+    "jest/no-disabled-tests": "warn",
+    "jest/no-focused-tests": "error",
+    "jest/no-identical-title": "error",
+    "jest/prefer-to-have-length": "warn",
+    "jest/valid-expect": "error",
+    "arrow-parens": ["error", "always"],
+    "no-underscore-dangle": ["error", { "allow": ["__typename"] }],
+    "prefer-promise-reject-errors": "warn",
+    "jsx-a11y/anchor-is-valid": 1
+  },
+  "plugins": [
+    "react",
+    "jest"
+  ],
+  "env": {
+    "jest/globals": true
+  }
+}

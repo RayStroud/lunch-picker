@@ -1,0 +1,16 @@
+.NewLunch form {
+  padding-bottom: 15px;
+}
+
+.NewLunch form textarea {
+  height: 300px;
+  font-size: 24px;
+}
+
+.NewLunch .form-group .react-datepicker-wrapper {
+  width: 100%;
+}
+
+.NewLunch .form-group .react-datepicker__input-container {
+  width: 100%;
+}
