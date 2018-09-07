@@ -5,3 +5,9 @@
 .vote-glyph-container .glyphicon {
   padding: 5px;
 }
+
+.fine-print {
+  font-size: 75%;
+  font-style: italic;
+  color: #bbb;
+}

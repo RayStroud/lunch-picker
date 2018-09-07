@@ -5,10 +5,12 @@ export async function main(event, context, callback) {
   const data = JSON.parse(event.body);
   const userId = event.requestContext.identity.cognitoIdentityId;
   const vote = {
-    email: data.email,
     createdAt: Date.now(),
     voteValue: data.voteValue,
   };
+  if (data.voteValue === 'Fav' || data.voteValue === 'Reject') {
+    vote.email = data.email;
+  }
 
   const params = {
     TableName: process.env.locationsTable,

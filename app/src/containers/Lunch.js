@@ -1,5 +1,13 @@
 import React, { Component } from 'react';
-import { ListGroup, ListGroupItem, ButtonGroup, Button, Glyphicon } from 'react-bootstrap';
+import {
+  ListGroup,
+  ListGroupItem,
+  ButtonGroup,
+  Button,
+  Glyphicon,
+  OverlayTrigger,
+  Tooltip,
+} from 'react-bootstrap';
 import { Auth, API } from 'aws-amplify';
 import './Lunch.css';
 
@@ -91,7 +99,13 @@ export default class Lunch extends Component {
   }
 
   getCountedVotes(votes, userId) {
-    const countedVotes = { userVote: null, totalVotes: 0, ratedVotes: 0 };
+    const countedVotes = {
+      userVote: null,
+      totalVotes: 0,
+      ratedVotes: 0,
+      favEmails: [],
+      rejectEmails: [],
+    };
     const voteEntries = Object.entries(votes, userId);
     for (let i = 0; i < voteEntries.length; i++ ) {
       const voteValue = voteEntries[i][1].voteValue;
@@ -102,6 +116,7 @@ export default class Lunch extends Component {
       if (voteValue === 'Fav') {
         countedVotes.totalVotes++;
         countedVotes.ratedVotes = countedVotes.ratedVotes + 1.01;
+        countedVotes.favEmails.push(voteEntries[i][1].email);
       }
       if (voteValue === 'Like') {
         countedVotes.totalVotes++;
@@ -114,6 +129,7 @@ export default class Lunch extends Component {
       if (voteValue === 'Reject') {
         countedVotes.totalVotes++;
         countedVotes.ratedVotes = countedVotes.ratedVotes - 1.0001;
+        countedVotes.rejectEmails.push(voteEntries[i][1].email);
       }
     }
     return countedVotes;
@@ -122,7 +138,15 @@ export default class Lunch extends Component {
   renderCountedVotes(countedVotes) {
     const voteGlyphicons = [];
     for (let i = 0; i < countedVotes['Fav']; i++ ) {
-      voteGlyphicons.push(<Glyphicon glyph="star" key={`Fav${i}`} />);
+      const email = countedVotes.favEmails[i] || 'Unknown';
+      voteGlyphicons.push(
+        <OverlayTrigger
+          placement="top"
+          overlay={<Tooltip id={`TipFav${i}`}>{email}</Tooltip>}
+        >
+          <Glyphicon glyph="star" key={`Fav${i}`} />
+        </OverlayTrigger>
+      );
     }
     for (let i = 0; i < countedVotes['Like']; i++ ) {
       voteGlyphicons.push(<Glyphicon glyph="thumbs-up" key={`Like${i}`} />);
@@ -131,7 +155,15 @@ export default class Lunch extends Component {
       voteGlyphicons.push(<Glyphicon glyph="thumbs-down" key={`Dislike${i}`} />);
     }
     for (let i = 0; i < countedVotes['Reject']; i++ ) {
-      voteGlyphicons.push(<Glyphicon glyph="ban-circle" key={`Reject${i}`} />);
+      const email = countedVotes.rejectEmails[i] || 'Unknown';
+      voteGlyphicons.push(
+        <OverlayTrigger
+          placement="top"
+          overlay={<Tooltip id={`TipFav${i}`}>{email}</Tooltip>}
+        >
+          <Glyphicon glyph="ban-circle" key={`Reject${i}`} />
+        </OverlayTrigger>
+      );
     }
     return (<span className="vote-glyph-container">{voteGlyphicons}</span>);
   }
@@ -204,8 +236,8 @@ export default class Lunch extends Component {
       <div className="Locations">
         {/* <pre>{JSON.stringify(this.state, null, 2)}</pre> */}
         <h1>Locations</h1>
-        <p>Vote for them all!</p>
-        <p>Pick your #1 choice with <Glyphicon glyph="star" />. If there's somewhere you won't go, use <Glyphicon glyph="ban-circle" />.</p>
+        <p>Vote either <Glyphicon glyph="thumbs-up" /> or <Glyphicon glyph="thumbs-down" /> for them all!</p>
+        <p>Pick your #1 choice with <Glyphicon glyph="star" />. If there's somewhere you won't go, use <Glyphicon glyph="ban-circle" />. <br /><span class="fine-print">Votes for <Glyphicon glyph="star" /> or <Glyphicon glyph="ban-circle" /> show your email on hover so everyone can see.</span></p>
         <hr></hr>
         <ListGroup>
           {!this.state.isLoading && this.renderLocationsList(this.state.locations)}
